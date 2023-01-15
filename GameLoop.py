@@ -9,7 +9,7 @@ import random
 i = 0
 
 #Game starts with Input from Users providing all player names
-player_names = input("Willkommen bei Kniffel!\nBitte gebt eure Namen ein getrennt durch Leerzeichen..\n")
+player_names = input("Willkommen bei Kniffel!\nBitte gebt eure Namen ein getrennt durch Leerzeichen..\n\n\n")
 
 player_names = player_names.split()
 

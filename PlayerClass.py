@@ -23,7 +23,7 @@ class KniffelPlayer:
 
     #Show what is still available on scoresheet
     def still_open(self):
-        print("Noch offen:")
+        print(f"\n{self.name}s Zettel. \n""Noch offen:")
         for key, value in self.scoresheet.items():
             if value == None:
                 print(key)
@@ -32,8 +32,8 @@ class KniffelPlayer:
     #one turn of kniffel
     def one_turn(self):
         final_dice = []
-        print(f"{str(self.name)} ist am Zug!")
-        input("Drücke Enter um zu würfeln..\n")
+        print(f"\n{str(self.name)} ist am Zug!")
+        input("\nDrücke Enter um zu würfeln..\n")
 
         instruction = """\nWelche Würfel willst du behalten? \nGebe Werte zw. 1 und 5 an, wo 1 der erste Würfel ist etc.und mit Leerzeichen trennen..\n"""
         first_throw = one_roll(5)
@@ -71,6 +71,29 @@ class KniffelPlayer:
         final_dice = [current_dice[i-1] for i in dice_selected]
 
         return final_dice
+    def add_score(self, five_dice):
+        self.still_open()
+
+        print("\nDein Ergebnis:\n" + " --- ".join([str(num) for num in five_dice]))
+
+        field_to_score = input("\nBitte gebe an wo du das Ergebnis aufschreiben möchtest!\n")
+
+        if field_to_score in ["1er", "2er", "3er", "4er", "5er", "6er"]:
+            self.scoresheet[field_to_score] = sum([int(num) for num in five_dice if num == field_to_score[0]])
+        elif field_to_score == "Dreierpasch":
+            if multiple_and_fullhouse(five_dice, 3):
+                self.scoresheet[field_to_score] = sum([int(num) for num in five_dice])
+            else:
+                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                self.scoresheet[field_to_score] = 0
+        elif field_to_score == "Viererpasch":
+            if multiple_and_fullhouse(five_dice, 4):
+                self.scoresheet[field_to_score] = sum([int(num) for num in five_dice])
+            else:
+                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                self.scoresheet[field_to_score] = 0
+
+
 
 
 
@@ -80,5 +103,22 @@ class KniffelPlayer:
 def one_roll(n):
     import random
     res = [random.randint(1,6) for i in range(n)]
-    print(" --- ".join([str(num) for num in res]))
+    print("\n" + " --- ".join([str(num) for num in res]))
     return res
+
+def multiple_and_fullhouse(five_dice, condition):
+    all_vals = {
+
+    }
+
+    for val in five_dice:
+        if all_vals[val]:
+            all_vals[val] += 1
+        else:
+            all_vals[val] = 1
+    if condition == 3:
+        return 3 in list(all_vals.values())
+    elif condition == 4:
+        return 4 in list(all_vals.values())
+    elif condition == "fh":
+        return 2 in list(all_vals.values()) and 3 in list(all_vals.values())
