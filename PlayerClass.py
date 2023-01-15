@@ -34,9 +34,11 @@ class KniffelPlayer:
         final_dice = []
         print(f"{str(self.name)} ist am Zug!")
         input("Drücke Enter um zu würfeln..\n")
+
+        instruction = """\nWelche Würfel willst du behalten? \nGebe Werte zw. 1 und 5 an, wo 1 der erste Würfel ist etc.und mit Leerzeichen trennen..\n"""
         first_throw = one_roll(5)
         #print(" --- ".join([str(num) for num in res]))
-        dice_selected = input("""\nWelche Würfel willst du behalten? \nGebe Werte zw. 1 und 5 an, wo 1 der erste Würfel ist etc.und mit Leerzeichen trennen..\n""")
+        dice_selected = input(instruction)
         dice_selected = [int(die) for die in dice_selected.split()]
 
         dice_kept = [first_throw[i-1] for i in dice_selected]
@@ -50,8 +52,7 @@ class KniffelPlayer:
 
         print("\nAlle deine Würfel:  " +  " --- ".join([str(num) for num in current_dice]) + "\n")
 
-        dice_selected = input("""\nWelche Würfel willst du behalten? \nGebe Werte zw. 1 und 5 an, wo 1 der erste Würfel ist etc. und mit Leerzeichen trennen..\n""")
-
+        dice_selected = input(instruction)
         dice_selected = [int(die) for die in dice_selected.split()]
 
         dice_kept = [current_dice[i-1] for i in dice_selected]
