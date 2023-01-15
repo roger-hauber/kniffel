@@ -92,6 +92,31 @@ class KniffelPlayer:
             else:
                 print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
                 self.scoresheet[field_to_score] = 0
+        elif field_to_score == "Full House":
+            if multiple_and_fullhouse(five_dice, "fh"):
+                self.scoresheet[field_to_score] = 25
+            else:
+                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                self.scoresheet[field_to_score] = 0
+        elif field_to_score == "Kleine Straße":
+            if set([1,2,3,4]) in set(five_dice) or set([2,3,4,5]) in set(five_dice) or set([3,4,5,6]):
+                self.scoresheet[field_to_score] = 30
+            else:
+                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                self.scoresheet[field_to_score] = 0
+        elif field_to_score == "Große Straße":
+            if set([1,2,3,4,5]) in set(five_dice) or set([2,3,4,5,6]) in set(five_dice):
+                self.scoresheet[field_to_score] = 40
+            else:
+                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                self.scoresheet[field_to_score] = 0
+        elif field_to_score == "Kniffel":
+            if len(set(five_dice)) == 1:
+                self.scoresheet[field_to_score] = 50
+            else:
+                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                self.scoresheet = 0
+
 
 
 
@@ -106,12 +131,12 @@ def one_roll(n):
     print("\n" + " --- ".join([str(num) for num in res]))
     return res
 
-def multiple_and_fullhouse(five_dice, condition):
+def multiple_and_fullhouse(some_dice, condition):
     all_vals = {
 
     }
 
-    for val in five_dice:
+    for val in some_dice:
         if val in all_vals.keys():
             all_vals[val] += 1
         else:
