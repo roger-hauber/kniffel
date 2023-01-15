@@ -112,13 +112,13 @@ def multiple_and_fullhouse(five_dice, condition):
     }
 
     for val in five_dice:
-        if all_vals[val]:
+        if val in all_vals.keys():
             all_vals[val] += 1
         else:
             all_vals[val] = 1
     if condition == 3:
-        return 3 in list(all_vals.values())
+        return 3 or 4 or 5 in list(all_vals.values())
     elif condition == 4:
-        return 4 in list(all_vals.values())
+        return 4 or 5 in list(all_vals.values())
     elif condition == "fh":
         return 2 in list(all_vals.values()) and 3 in list(all_vals.values())

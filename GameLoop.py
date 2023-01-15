@@ -1,5 +1,5 @@
 ### Game Loop Skeleton
-#import Class stuf from other script
+#import Class stuff from other script
 from PlayerClass import KniffelPlayer
 import PlayerClass
 import random
