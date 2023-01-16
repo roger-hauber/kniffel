@@ -1,6 +1,7 @@
 ### Game Loop Skeleton
 #import Class stuff from other script
 from PlayerClass import KniffelPlayer
+from PlayerClass import keywithmaxval
 import PlayerClass
 import random
 
@@ -17,8 +18,16 @@ player_names = player_names.split()
 players = [KniffelPlayer(name) for name in player_names]
 
 #now start the game loop
-while i < 4:
+while i < 13:
     for player in players:
         player.still_open()
-        player.one_turn()
+        res_turn = player.one_turn()
+        player.add_score(res_turn)
     i += 1
+#in the end sum up all points in players scoresheet
+end_scores = {}
+for player in players:
+    end_scores[player.name] = player.get_total_score()
+winner = keywithmaxval(end_scores)
+
+print(f"{winner} hat gewonnen mit {end_scores[winner]} Punkten! Glückwunsch!!")

@@ -5,6 +5,7 @@
 class KniffelPlayer:
     def __init__(self, name):
         self.name = name
+        self.total_score = 0
         self.scoresheet = {
             "1er": None,
             "2er": None,
@@ -68,7 +69,7 @@ class KniffelPlayer:
 
 
 
-        final_dice = [current_dice[i-1] for i in dice_selected]
+        final_dice = current_dice
 
         return final_dice
     def add_score(self, five_dice):
@@ -116,6 +117,10 @@ class KniffelPlayer:
             else:
                 print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
                 self.scoresheet = 0
+    def get_total_score(self):
+        self.total_score = sum([val for val in self.scoresheet.values() if val])
+        return self.total_score
+
 
 
 
@@ -147,3 +152,12 @@ def multiple_and_fullhouse(some_dice, condition):
         return 4 or 5 in list(all_vals.values())
     elif condition == "fh":
         return 2 in list(all_vals.values()) and 3 in list(all_vals.values())
+
+
+#helper function to determine key of max value in dict (determine winner)
+def keywithmaxval(d):
+     """ a) create a list of the dict's keys and values;
+         b) return the key with the max value"""
+     v = list(d.values())
+     k = list(d.keys())
+     return k[v.index(max(v))]
