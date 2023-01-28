@@ -1,4 +1,6 @@
 ### Main file for Kniffel
+from colorama import Fore
+
 ## KniffelPlayer is a class that stores a dict of their scoresheet, contains their name
 # and contains several methods for playing and updating the scoresheet
 
@@ -25,11 +27,15 @@ class KniffelPlayer:
     #Show what is still available on scoresheet
     def still_open(self):
         print(f"\n{self.name}s Zettel. \n""Noch offen:")
+        still_open = []
         for key, value in self.scoresheet.items():
             if value == None:
+                still_open.append(key)
                 print(key)
             else:
                 continue
+        return still_open
+
     #one turn of kniffel
     def one_turn(self):
         final_dice = []
@@ -72,53 +78,62 @@ class KniffelPlayer:
         final_dice = current_dice
 
         return final_dice
+
     def add_score(self, five_dice):
-        self.still_open()
+        still_open = self.still_open()
 
         print("\nDein Ergebnis:\n" + " --- ".join([str(num) for num in five_dice]))
 
         field_to_score = input("\nBitte gebe an wo du das Ergebnis aufschreiben möchtest!\n")
 
+        while field_to_score not in still_open:
+            field_to_score = input(f"\n Du hast bereits {field_to_score} aufgeschrieben. Bitte wähle etwas anderes!\n")
+
         if field_to_score in ["1er", "2er", "3er", "4er", "5er", "6er"]:
-            self.scoresheet[field_to_score] = sum([int(num) for num in five_dice if num == field_to_score[0]])
+            self.scoresheet[field_to_score] = sum([num for num in five_dice if str(num) == field_to_score[0]])
         elif field_to_score == "Dreierpasch":
             if multiple_and_fullhouse(five_dice, 3):
                 self.scoresheet[field_to_score] = sum([int(num) for num in five_dice])
             else:
-                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
                 self.scoresheet[field_to_score] = 0
         elif field_to_score == "Viererpasch":
             if multiple_and_fullhouse(five_dice, 4):
                 self.scoresheet[field_to_score] = sum([int(num) for num in five_dice])
             else:
-                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
                 self.scoresheet[field_to_score] = 0
         elif field_to_score == "Full House":
             if multiple_and_fullhouse(five_dice, "fh"):
                 self.scoresheet[field_to_score] = 25
             else:
-                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
                 self.scoresheet[field_to_score] = 0
         elif field_to_score == "Kleine Straße":
-            if set([1,2,3,4]) in set(five_dice) or set([2,3,4,5]) in set(five_dice) or set([3,4,5,6]):
+            if set([1,2,3,4]) in set(five_dice) or set([2,3,4,5]) in set(five_dice) or set([3,4,5,6]) in set(five_dice):
                 self.scoresheet[field_to_score] = 30
             else:
-                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
                 self.scoresheet[field_to_score] = 0
         elif field_to_score == "Große Straße":
             if set([1,2,3,4,5]) in set(five_dice) or set([2,3,4,5,6]) in set(five_dice):
                 self.scoresheet[field_to_score] = 40
             else:
-                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
+                print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
                 self.scoresheet[field_to_score] = 0
         elif field_to_score == "Kniffel":
             if len(set(five_dice)) == 1:
                 self.scoresheet[field_to_score] = 50
             else:
-                print("\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n")
-                self.scoresheet = 0
+                print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
+                self.scoresheet[field_to_score] = 0
+        elif field_to_score == "Chance":
+            self.scoresheet[field_to_score] = sum([int(num) for num in five_dice])
+
     def get_total_score(self):
-        self.total_score = sum([val for val in self.scoresheet.values() if val])
+        self.total_score = sum([val for val in self.scoresheet.values()])
+        if sum([val for val in list(self.scoresheet.values())[0:6]]) >= 63:
+            self.total_score += 35
         return self.total_score
 
 
@@ -147,9 +162,9 @@ def multiple_and_fullhouse(some_dice, condition):
         else:
             all_vals[val] = 1
     if condition == 3:
-        return 3 or 4 or 5 in list(all_vals.values())
+        return 3 in list(all_vals.values()) or 4 in list(all_vals.values()) or 5 in list(all_vals.values())
     elif condition == 4:
-        return 4 or 5 in list(all_vals.values())
+        return 4 in list(all_vals.values()) or 5 in list(all_vals.values())
     elif condition == "fh":
         return 2 in list(all_vals.values()) and 3 in list(all_vals.values())
 

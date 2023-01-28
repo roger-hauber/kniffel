@@ -23,6 +23,7 @@ while i < 13:
         player.still_open()
         res_turn = player.one_turn()
         player.add_score(res_turn)
+        #print(player.scoresheet)
     i += 1
 #in the end sum up all points in players scoresheet
 end_scores = {}
@@ -30,4 +31,6 @@ for player in players:
     end_scores[player.name] = player.get_total_score()
 winner = keywithmaxval(end_scores)
 
+#for player in players:
+    #print(player.scoresheet)
 print(f"{winner} hat gewonnen mit {end_scores[winner]} Punkten! Glückwunsch!!")
