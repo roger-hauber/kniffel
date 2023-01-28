@@ -110,13 +110,14 @@ class KniffelPlayer:
                 print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
                 self.scoresheet[field_to_score] = 0
         elif field_to_score == "Kleine Straße":
-            if set([1,2,3,4]) in set(five_dice) or set([2,3,4,5]) in set(five_dice) or set([3,4,5,6]) in set(five_dice):
+            #if set([1,2,3,4]) in set(five_dice) or set([2,3,4,5]) in set(five_dice) or set([3,4,5,6]) in set(five_dice):
+            if all([x in five_dice for x in [1,2,3,4]]) or all([x in five_dice for x in [2,3,4,5]]) or all([x in five_dice for x in [3,4,5,6]]):
                 self.scoresheet[field_to_score] = 30
             else:
                 print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
                 self.scoresheet[field_to_score] = 0
         elif field_to_score == "Große Straße":
-            if set([1,2,3,4,5]) in set(five_dice) or set([2,3,4,5,6]) in set(five_dice):
+            if set([1,2,3,4,5]) == set(five_dice) or set([2,3,4,5,6]) == set(five_dice):
                 self.scoresheet[field_to_score] = 40
             else:
                 print(Fore.RED + "\nErgebnis erfüllt nicht die Bedingungen. Es wird eine 0 notiert.\n" + Fore.RESET)
