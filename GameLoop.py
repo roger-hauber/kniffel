@@ -4,6 +4,7 @@ from PlayerClass import KniffelPlayer
 from PlayerClass import keywithmaxval
 import PlayerClass
 import random
+from colorama import Fore
 
 # while loop with i < 13 -> after 13 rounds the game is finished
 # but for now choose lower threshold
@@ -33,4 +34,4 @@ winner = keywithmaxval(end_scores)
 
 #for player in players:
     #print(player.scoresheet)
-print(f"{winner} hat gewonnen mit {end_scores[winner]} Punkten! Glückwunsch!!")
+print(Fore.GREEN + f"{winner} "+ Fore.RESET + f"hat gewonnen mit {end_scores[winner]} Punkten!"+Fore.GREEN + "Glückwunsch!!" + Fore.RESET)

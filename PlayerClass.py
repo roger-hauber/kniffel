@@ -46,6 +46,13 @@ class KniffelPlayer:
         first_throw = one_roll(5)
         #print(" --- ".join([str(num) for num in res]))
         dice_selected = input(instruction)
+
+        #ask for input when not valid
+
+        while any([die not in ["1", "2", "3", "4", "5"] for die in dice_selected.split()]):
+
+            dice_selected = input(Fore.RED + "\nDie Eingabe war ungültig. Achte darauf nur Werte zw. 1-5 zu benutzen und mit Leerzeichen zu trennen!\n" +  Fore.RESET + instruction)
+
         dice_selected = [int(die) for die in dice_selected.split()]
 
         dice_kept = [first_throw[i-1] for i in dice_selected]
