@@ -71,3 +71,6 @@ print(dummy_player.scoresheet)
 dummy_player.add_score(["3", "3", "4", "5", "5"])
 
 print(dummy_player.scoresheet)
+
+
+## some random changes
